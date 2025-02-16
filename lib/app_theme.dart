@@ -7,6 +7,32 @@ class AppTheme{
   static const Color white=Color(0xffFFFFFF);
   static const Color gray=Color(0xffA0A0A0);
   static ThemeData darkMode =ThemeData(
+
+  bottomSheetTheme: BottomSheetThemeData(
+    backgroundColor: white,
+    modalElevation: 24,
+    shape: RoundedRectangleBorder(
+      borderRadius:BorderRadius.circular(16)
+    ),
+    clipBehavior: Clip.antiAliasWithSaveLayer,
+
+
+
+  )
+  ,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: black,
+        shape: RoundedRectangleBorder(borderRadius:  BorderRadius.circular(16)),
+       fixedSize: Size(double.infinity, 56)
+
+
+
+
+      )
+
+
+    ),
     appBarTheme: AppBarTheme(
       centerTitle: true,
       color: black,
@@ -14,6 +40,8 @@ class AppTheme{
       titleTextStyle:TextStyle(
         fontWeight: FontWeight.w500,
         fontSize: 20,
+
+
 
 
       )
