@@ -9,7 +9,7 @@ import '../widgets/loding_indicator.dart';
 class NewsSearch extends SearchDelegate {
   String catgoryId;
   NewsSearch({required this.catgoryId});
-
+  late Future<NewRespone> getCatgoryNews=APIServices.getCatgoryNews(catgoryId);
   ThemeData appBarTheme(BuildContext context) {
     return Theme.of(context).copyWith(appBarTheme:  const AppBarTheme(
       backgroundColor: AppTheme.black,
@@ -65,13 +65,13 @@ class NewsSearch extends SearchDelegate {
   }
   @override
   Widget buildSuggestions(BuildContext context) {
-    return FutureBuilder(future: APIServices.getCatgoryNews(catgoryId), builder: (context, snapshot) {
-      if(snapshot.connectionState==ConnectionState.waiting){
+    return FutureBuilder(future: getCatgoryNews, builder: (context, snapshot) {
+      if(snapshot.connectionState==ConnectionState.waiting&&query.isNotEmpty){
         return LodingIndicator();
       }else if(snapshot.hasError||snapshot.data?.status!="ok"){
         return ErrorIndicator();
       }else{
-        List<Articles> newsSuggestion=snapshot.data!.articles!.where((item) =>item.title!.toLowerCase().contains(query.toLowerCase()) ,).toList()??[];
+        List<Articles> newsSuggestion=query.isEmpty? []: snapshot.data!.articles!.where((item) =>item.title!.toLowerCase().contains(query.toLowerCase()) ,).toList()??[];
         return ListView.separated(padding: EdgeInsets.only(top: 15),separatorBuilder: (context, index) => SizedBox(height: 16,),itemCount:newsSuggestion.length,itemBuilder: (context, index) => GestureDetector(onTap: (){
           showModalBottomSheet(useSafeArea: true ,constraints: BoxConstraints(
             maxHeight: MediaQuery.sizeOf(context).height*.48,
